@@ -16,6 +16,7 @@ func main() {
 			fmt.Fprintf(w, "%v\n", s)
 			log.Printf("%v\n",s)
 		})
+
 	if err := http.ListenAndServe(":12345", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
