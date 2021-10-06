@@ -10,19 +10,20 @@ import (
 // 1.不依赖具体对象
 func doFile() {
 	var (
-		CloseFile = (*os.File).Close
+		CloseFile = (*os.File).Close	// 变量就是一个方法
 		ReadFile  = (*os.File).Read
 	)
 
 	f, _ := os.OpenFile("filename.txt",os.O_RDWR|os.O_CREATE, 0755)
 	ReadFile(f, []byte("data"))
-	CloseFile(f)
+	CloseFile(f)	// 如果直接用 f 调用 -- f.Close()
 }
 
 // 2.通过闭包去除参数 f 消除首参差异
 func doFile1() {
 	f, _ := os.OpenFile("filename.txt", os.O_RDWR|os.O_CREATE, 0755)
 
+	// 通常的，匿名函数用来直接使用函数外的变量，利用的就是这一个特性
 	var (
 		Close = func() error {
 		return (*os.File).Close(f)
