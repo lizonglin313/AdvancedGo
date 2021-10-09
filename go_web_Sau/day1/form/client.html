@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>client</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8080/process?hello=world&th=123"
+    method="post" enctype="application/x-www-form-urlencoded">
+        <input type="process" name="hello" value="lzl">
+        <input type="text" name="post" value="456">
+        <input type="submit">
+    </form>
+
+    <form action="http://127.0.0.1:8080/mul?hello=world&th=123"
+          method="post" enctype="multipart/form-data">
+        <input type="text" name="hello" value="mul">
+        <input type="text" name="post" value="456">
+        <input type="submit">
+    </form>
+
+    <form action="http://127.0.0.1:8080/fv?hello=world&th=123"
+          method="post" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="hello" value="fv">
+        <input type="text" name="post" value="456">
+        <input type="submit">
+    </form>
+
+    <form action="http://127.0.0.1:8080/pfv?hello=world&th=123"
+          method="post" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="hello" value="pfv">
+        <input type="text" name="post" value="456">
+        <input type="submit">
+    </form>
+</body>
+</html>
