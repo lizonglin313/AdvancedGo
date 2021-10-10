@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--迭代-->
+<!--    循环体中的每个 {{.}} 是当前的元素-->
+<ul>
+    {{ range . }}
+    <li>{{.}}</li>
+    {{else}}
+    <li>No elements!</li>
+    {{end}}
+</ul>
+</body>
+</html>

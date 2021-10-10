@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--设置参数和管道-->
+{{ range $key, $value := . }}
+The key is {{ $key }} and the value is {{ $value }}
+<br/>
+{{ end }}
+<br/>
+{{ 123.3456 | printf "%.2f" }}
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>T1</title>
+</head>
+<body>
+<div>This is t1.html</div>
+<div>This is value of dot in t1.html -- [{{ . }}]</div>
+<hr/>
+
+{{ template "t2.html" . }} <!-- . 用来向 t2.html  传数据-->
+<hr/>
+<div>t1.html after</div>
+</body>
+</html>
