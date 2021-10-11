@@ -10,3 +10,5 @@ go web/高级编程中的一些学习代码和笔记
 -  day1：修改响应头、cookie、文件上传、拿form数据、向Response Header/Body写数据
 
 -  day2：go template的使用demo
+
+-  day3：memory、file、csv、gob二进制相关的存储
