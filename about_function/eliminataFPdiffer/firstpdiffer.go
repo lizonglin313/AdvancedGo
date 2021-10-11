@@ -22,7 +22,6 @@ func doFile() {
 // 2.通过闭包去除参数 f 消除首参差异
 func doFile1() {
 	f, _ := os.OpenFile("filename.txt", os.O_RDWR|os.O_CREATE, 0755)
-
 	// 通常的，匿名函数用来直接使用函数外的变量，利用的就是这一个特性
 	var (
 		Close = func() error {

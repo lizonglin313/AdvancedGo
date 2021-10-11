@@ -15,8 +15,8 @@ func errorUsing() {
 
 func correctUsing() {
 	for i := 0; i < 3; i++ {
-		defer func(i int) {	// 每次迭代用新的局部变量记录i的值
-			fmt.Println(i)
+		defer func(it int) {	// 每次迭代用新的局部变量记录i的值
+			fmt.Println(it)
 		}(i)
 	}
 }
