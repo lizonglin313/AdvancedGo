@@ -9,6 +9,18 @@ go web/高级编程中的一些学习代码和笔记
 
 -  day1：修改响应头、cookie、文件上传、拿form数据、向Response Header/Body写数据
 
+---
+
 -  day2：go template的使用demo
 
+---
+
 -  day3：memory、file、csv、gob二进制相关的存储
+
+---
+
+-  day4：goroutine、channel相关内容
+
+1. channel是可以关闭的，使用`close(c)`就可以关闭一个通道。这个时候可以使用多值来判断通道是否关闭：`c1, ok := <-a`
+
+2. 在使用`select`选择通道时，可以用`default`处理特殊情况

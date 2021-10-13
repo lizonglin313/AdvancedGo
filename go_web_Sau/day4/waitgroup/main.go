@@ -29,5 +29,5 @@ func main() {
 	go printNumbers2(&wg)
 	go printLetters2(&wg)
 	wg.Wait()	// 阻塞 直到两个 Done 信号完成
-	
+
 }
