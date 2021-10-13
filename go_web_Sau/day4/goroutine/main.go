@@ -1,19 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"time"
 )
 
 func printNumber1() {
 	for i := 0; i < 10; i++ {
-		fmt.Printf("%d ", i)
+		//fmt.Printf("%d ", i)
 	}
 }
 
 func printLetters1() {
 	for i := 'A'; i < 'A'+10; i++ {
-		fmt.Printf("%c ", i)
+		//fmt.Printf("%c ", i)
 	}
 }
 
@@ -28,17 +27,22 @@ func goPrint1() {
 }
 
 func printNumber2() {
-	for i := 0; i < 10; i++ {
-		time.Sleep(1 * time.Millisecond)
-		fmt.Printf("%d ", i)
+	for i := 0; i < 100; i++ {
+		time.Sleep(1 * time.Microsecond)
+		//fmt.Printf("%d ", i)
 	}
 }
 
 func printLetters2() {
-	for i := 'A'; i < 'A'+10; i++ {
-		time.Sleep(1 * time.Millisecond)
-		fmt.Printf("%c ", i)
+	for i := 'A'; i < 'A'+100; i++ {
+		time.Sleep(1 * time.Microsecond)
+		//fmt.Printf("%c ", i)
 	}
+}
+
+func print2() {
+	printNumber2()
+	printLetters2()
 }
 
 func goPrint2() {
