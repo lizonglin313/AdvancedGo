@@ -1,12 +1,11 @@
 package chaining_func
 
 import (
-"fmt"
-"net/http"
-"reflect"
-"runtime"
+	"fmt"
+	"net/http"
+	"reflect"
+	"runtime"
 )
-
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello!")
@@ -39,4 +38,3 @@ func chainingTwoFunc() {
 	http.HandleFunc("/hello", log(hello))
 	server.ListenAndServe()
 }
-

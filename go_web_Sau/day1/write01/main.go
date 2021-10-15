@@ -10,6 +10,7 @@ import (
 // @Param:	r
 // @Notice:
 func write01(w http.ResponseWriter, r *http.Request) {
+
 	str := `
 <html lang="en">
 <head>
@@ -30,11 +31,17 @@ func write01(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(str))
 }
 
+func re(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Location", "https://lizonglin313.github.io/")
+	w.WriteHeader(302)
+
+}
+
 func main() {
 	server := http.Server{
 		Addr: "127.0.0.1:8080",
 	}
-
+	http.HandleFunc("/re", re)
 	http.HandleFunc("/write", write01)
 	server.ListenAndServe()
 }

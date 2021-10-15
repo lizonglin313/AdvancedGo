@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-type HelloHandler struct {}
+type HelloHandler struct{}
 
 func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello!")
@@ -33,4 +33,3 @@ func chainingHandlers() {
 	http.Handle("/hello", protect(log1(hello)))
 	server.ListenAndServe()
 }
-

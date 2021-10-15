@@ -6,12 +6,15 @@ import (
 )
 
 func body(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r)
+	fmt.Println(r.Header)
 	len := r.ContentLength
 	body := make([]byte, len)
 	// 将 body 写入
 	r.Body.Read(body)
 	fmt.Printf(string(body))
 	fmt.Fprintf(w, string(body))
+
 }
 
 func main() {
