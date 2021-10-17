@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="net/http 下载 在golang中，如果我们要下载一个文件，最简单的就是先用http.get()方法创建一个远程的请求后，后面可使用ioutil.WriteFile()等将请求内容直接写到文件中" />
+    <meta property="og:description" content="net/http 下载 在golang中，如果我们要下载一个文件，最简单的就是先用http.get()方法创建一个远程的请求后，后面可使用ioutil.WriteFile()等将请求内容直接写到文件中" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>golang的io.copy使用 - 随彦心MO - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=MynSBPsTXNkDVLGPQR89Q2oVwJD1SYW2wiVnCO3DuWg" />
+    <link id="MainCss" rel="stylesheet" href="/skins/bluefresh/bundle-bluefresh.min.css?v=C2Y6kvNjJlDgQH4FFxKqI_gUkQi_FDjkUFTlWXYQLzA" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/bluefresh/bundle-bluefresh-mobile.min.css?v=iD8eCcaMNoqcp7qNEN4yo8Uz99B08CbMhSZSX32peUg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/smartrui/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/smartrui/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/smartrui/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 175893;
+        var currentBlogApp = 'smartrui';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlueFresh';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-12-28 03:25';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V-zVMSdi6fYxja7HtOp6qIiJd_zqHctHxlOKSi6Vq4c"></script>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-bluefresh has-navbar has-bannerbar">
+    <a name="top"></a>
+        <img src="https://img2020.cnblogs.com/blog/35695/202110/35695-20211013191314027-1328678259.jpg" style="display:none" onload="impressEventC0()" />
+        <a target="_blank" href="https://c.gridsumdissector.com/r/?gid=gad_545_chxi4sjt&ck=1049&adk=10585&autorefresh=__AUTOREFRESH__" onclick="clickBanner(495);ga('send', 'event', 'banner', 'click', 'C0-pangle')">
+            <div class="bannerbar aliyun forpc" style="background-size: contain; background-image: url(https://img2020.cnblogs.com/blog/35695/202110/35695-20211013191314027-1328678259.jpg)">
+            </div>
+        </a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/smartrui/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/smartrui/">梁老师</a>
+</h1>
+<h2>坚持到感动自已，努力到感动自已。
+也许我的努力不会给我带来什么，但至少我努力过。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/smartrui/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%9A%8F%E5%BD%A6%E5%BF%83MO">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/smartrui/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/smartrui/p/12110576.html">
+    <span>golang的io.copy使用</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h3 id="nethttp-下载">net/http 下载</h3>
+<p>在golang中，如果我们要下载一个文件，最简单的就是先用http.get()方法创建一个远程的请求后，后面可使用ioutil.WriteFile()等将请求内容直接写到文件中。</p>
+<pre><code class="language-go">func DownFile() {
+	url :="http://wx.qlogo.cn/Vaz7vE1/64"
+	resp ,err := http.Get(url)
+	if err != nil {
+		fmt.Fprint(os.Stderr ,"get url error" , err)
+	}
+
+	defer resp.Body.Close()
+
+	data ,err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	 _ =ioutil.WriteFile("/tmp/icon_wx.png", data, 0755)
+}
+</code></pre>
+<p>但是你会发现，上面的操作方式会有一个小问题，那就是下载小文件还行，如果是大的文件的话，可能会出现内存不足的问题，因为它是需要先把请求内容全部读取到内存中，然后再写入到文件中的。</p>
+<p>那如果要下载大文件或者复制大文件，应该怎么办呢？ 其实，Golang中就提供了 <code>io.copy</code>方法，它就是在文件指针之间直接复制的，不用全读入内存，可解决这样的问题。</p>
+<h3 id="iocopy">io.copy</h3>
+<p>我们先看下原型声明</p>
+<pre><code class="language-go">func Copy(dst Writer, src Reader) (written int64, err error) {
+	return copyBuffer(dst, src, nil)
+}
+
+func copyBuffer(dst Writer, src Reader, buf []byte) (written int64, err error) {
+	....
+	if buf == nil {
+		size := 32 * 1024
+		if l, ok := src.(*LimitedReader); ok &amp;&amp; int64(size) &gt; l.N {
+			if l.N &lt; 1 {
+				size = 1
+			} else {
+				size = int(l.N)
+			}
+		}
+		buf = make([]byte, size)
+	}
+</code></pre>
+<p>它是将源复制到目标，并且是按默认的缓冲区32k循环操作的，不会将内容一次性全写入内存中,这样就能解决大文件的问题。</p>
+<p>我们再用 <code>io.copy</code> 来实现一下吧。</p>
+<pre><code class="language-go">func DownFile() {
+	url :="http://wx.qlogo.cn/Vaz7vE1/64"
+	resp ,err := http.Get(url)
+	if err != nil {
+		fmt.Fprint(os.Stderr ,"get url error" , err)
+	}
+
+
+	defer resp.Body.Close()
+	
+	out, err := os.Create("/tmp/icon_wx_2.png")
+	wt :=bufio.NewWriter(out)
+	
+	defer out.Close()
+	
+	n, err :=io.Copy(wt, resp.Body)
+	fmt.Println("write" , n)
+	if err != nil {
+		panic(err)
+	}
+	wt.Flush()
+}
+</code></pre>
+<p>同理，如果我们要复制大文件也可以用 <code>io.copy</code> 这个，防止产生内存溢出。</p>
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-12-28 03:25</span>&nbsp;
+<a href="https://www.cnblogs.com/smartrui/">随彦心MO</a>&nbsp;
+阅读(<span id="post_view_count">10553</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12110576" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12110576);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '12110576', targetLink: 'https://www.cnblogs.com/smartrui/p/12110576.html', title: 'golang的io.copy使用' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 175893, cb_blogApp = 'smartrui', cb_blogUserGuid = '1e5f302c-5891-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 12110576, cb_entryCreatedDate = '2019-12-28 03:25', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+             <a onclick="ga('send', 'event', 'banner', 'click', 'Pangle-C1')" target="_blank" rel="nofollow" href="https://c.gridsumdissector.com/r/?gid=gad_545_mzyfo0un&ck=46&adk=566&autorefresh=__AUTOREFRESH__">
+                <img style="width: 300px; height: 250px;" src="https://img2020.cnblogs.com/blog/35695/202110/35695-20211008160624813-1694591598.jpg" alt="" onload="impressC1()" />
+             </a>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 随彦心MO
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1pIYhosIwdnBYpDfuRv26P-eus404_PvzpFK97n3cB6Zs8oecx9Dbtyg1Q49zzjt6mxTMVDXxbJ6GFZv3hFtV1NIDPCE1SeUO_nRP6U4HR4_lvCKFP_3qPmJ3W34A-5Rr8" />
+</body>
+</html>
