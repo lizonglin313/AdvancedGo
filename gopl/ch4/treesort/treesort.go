@@ -9,16 +9,6 @@ type tree struct {
 
 func main() {
 
-	t1 := tree{
-		value: 1,
-		left:  nil,
-		right: nil,
-	}
-
-	t2 := t1
-	fmt.Println(t1)
-	fmt.Println(t2)
-
 	values := []int{4, 5, 2, 11, 6, 7, 1, 6}
 
 	re := sortUsingTree(values)
@@ -39,8 +29,9 @@ func sortUsingTree(values []int) []int {
 	//fmt.Printf("%p %p\n", &re, &values)
 
 	appendValues(re, root)
-	fmt.Println(re)     // []
-	fmt.Println(values) // [1 2 4 5 6 6 7 11]
+
+	fmt.Println(re)     // output:		[]
+	fmt.Println(values) // output:		[1 2 4 5 6 6 7 11]
 	return re
 }
 
