@@ -106,6 +106,8 @@ func Get(url string) (*User, error) {
 
 func main() {
 
+
+
 	userName := os.Args[1]
 	url := REQUEST_URL + userName
 	fmt.Println(url)
