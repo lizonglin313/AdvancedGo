@@ -13,11 +13,13 @@ func main() {
 	router := gin.Default()
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
+	// 一般需要先加载如 js css 等静态文件
 	// 加载全局模板文件， 路径是相对于 根目录的相对路径
 	router.LoadHTMLGlob("./gin_demo/upload_sig_file/public/*")
 	//router.Static("/gin_demo/upload_sig_file/public", "./gin_demo/upload_sig_file/public")
 
 	router.GET("/upload", func(c *gin.Context) {
+		// 返回 html 模板
 		c.HTML(http.StatusOK, "index.html", "")
 	})
 
