@@ -4,6 +4,7 @@ import (
 	"AdvancedGo/with_jianyu/go_gin_example/pkg/e"
 	"AdvancedGo/with_jianyu/go_gin_example/pkg/util"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"time"
 )
@@ -27,6 +28,7 @@ func JWT() gin.HandlerFunc {
 			if err != nil {
 				// 解析token失败
 				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
+				log.Printf("token %s don't have auth", token)
 			} else if time.Now().Unix() > claims.ExpiresAt {
 				// 如果token过期
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT

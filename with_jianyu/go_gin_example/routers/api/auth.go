@@ -3,10 +3,10 @@ package api
 import (
 	"AdvancedGo/with_jianyu/go_gin_example/models"
 	"AdvancedGo/with_jianyu/go_gin_example/pkg/e"
-	"AdvancedGo/with_jianyu/go_gin_example/pkg/logging"
 	"AdvancedGo/with_jianyu/go_gin_example/pkg/util"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -48,11 +48,12 @@ func GetAuth(c *gin.Context) {
 		} else {
 			// 不存在这个数据
 			code = e.ERROR_AUTH
+			log.Printf("don't have this user: %s", username)
 		}
 	} else {
 		// 参数错误
 		for _, err := range valid.Errors {
-			logging.Info(err.Key, err.Message)
+			log.Printf(err.Key, err.Message)
 		}
 	}
 
