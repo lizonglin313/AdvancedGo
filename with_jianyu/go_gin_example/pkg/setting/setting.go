@@ -17,6 +17,8 @@ var (
 
 	PageSize  int
 	JwtSecret string
+
+	LogFilePath string
 )
 
 // init
@@ -30,12 +32,22 @@ func init() {
 	}
 
 	LoadBase()
+	LoadLogFilePath()
 	LoadServer()
 	LoadApp()
 }
 
 func LoadBase() {
 	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
+}
+
+func LoadLogFilePath()  {
+	section, err := Cfg.GetSection("runtime")
+	if err != nil {
+		log.Fatalf("fail to get section 'runtime': %v", err)
+	}
+
+	LogFilePath = section.Key("LogFilePath").MustString("with_jianyu/go_gin_example/runtime/logs/")
 }
 
 func LoadServer() {

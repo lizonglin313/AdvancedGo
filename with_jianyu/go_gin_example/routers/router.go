@@ -5,13 +5,47 @@ import (
 	"AdvancedGo/with_jianyu/go_gin_example/pkg/setting"
 	"AdvancedGo/with_jianyu/go_gin_example/routers/api"
 	v1 "AdvancedGo/with_jianyu/go_gin_example/routers/api/v1"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io"
+	"os"
+	"time"
 )
 
 func InitRouter() *gin.Engine {
+
+	// 把日志同时写到文件和终端
+	logFilePath := setting.LogFilePath + time.Now().Format("20060102") + ".log"
+	// 创建日志文件
+	f, err := os.Create(logFilePath)
+	// 以追加形式写入
+	// f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE, 0666)
+	if err != nil {
+		panic("create log file error!")
+	}
+	// 设置日志写入 Writer
+	// gin.DefaultWriter = io.MultiWriter(f)	// 输出目标为文件 f
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout) // 同时向 文件f 和 终端写入
+
 	r := gin.New()
 
-	r.Use(gin.Logger())
+	// r.Use(gin.Logger())
+	// 自定义日志
+	// 自定义日志格式中间件
+	// 将日志写入默认的 os.Stdout
+	r.Use(gin.LoggerWithFormatter(func(params gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \" %s \" %s \"\n",
+			params.ClientIP,
+			params.TimeStamp.Format(time.RFC1123),
+			params.Method,
+			params.Path,
+			params.Request.Proto,
+			params.StatusCode,
+			params.Latency,
+			params.Request.UserAgent(),
+			params.ErrorMessage,
+		)
+	}))
 	r.Use(gin.Recovery())
 
 	gin.SetMode(setting.RunMode)
@@ -21,7 +55,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/auth", api.GetAuth)
 
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use(jwt.JWT())	// 仅在 apiv1 组里使用
+	apiv1.Use(jwt.JWT()) // 仅在 apiv1 组里使用
 	{
 		apiv1.GET("/tags", v1.GetTags)          // 获取标签列表
 		apiv1.POST("/tags", v1.AddTag)          // 新建标签
