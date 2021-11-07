@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
+	"time"
 )
 
 // 对数据库进行初始化
@@ -70,6 +71,11 @@ func init() {
 	sqlDB.SetMaxIdleConns(10)  // 设置连接池中空闲连接的最大数量
 	sqlDB.SetMaxOpenConns(100) // 设置打开数据库连接的最大数量
 
+	// 替换并注册新的回调函数
+	// 还用不了，有点问题
+	//db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
+	//db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
+
 }
 
 func CloseDB() {
@@ -78,4 +84,36 @@ func CloseDB() {
 		log.Fatalf("error of get db.DB(): %v", err)
 	}
 	defer sqlDB.Close()
+}
+
+// 定制化回调函数
+// 创建时写入时间
+func updateTimeStampForCreateCallback(db *gorm.DB) {
+	if db.Statement.Schema != nil {
+		nowTime := time.Now().Unix()
+		if createTimeField, ok := db.Statement.Schema.FieldsByName["CreatedOn"]; ok {
+			if !createTimeField.NotNull {
+				// 如果这个字段是空的，设置值
+				createTimeField.Set(db.Statement.ReflectValue, nowTime)
+			}
+		}
+
+		if modifyTimeField, ok := db.Statement.Schema.FieldsByName["ModifiedOn"]; ok {
+			if !modifyTimeField.NotNull {
+				modifyTimeField.Set(db.Statement.ReflectValue, nowTime)
+			}
+		}
+	}
+}
+
+// 修改时更新时间
+func updateTimeStampForUpdateCallback(db *gorm.DB) {
+	if db.Statement.Schema != nil {
+		nowTime := time.Now().Unix()
+
+		modifyTimeField, _ := db.Statement.Schema.FieldsByName["ModifiedOn"]
+
+		modifyTimeField.Set(db.Statement.ReflectValue, nowTime)
+
+	}
 }

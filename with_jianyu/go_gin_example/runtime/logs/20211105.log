@@ -1,0 +1,16 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /auth                     --> AdvancedGo/with_jianyu/go_gin_example/routers/api.GetAuth (3 handlers)
+[GIN-debug] GET    /api/v1/tags              --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetTags (4 handlers)
+[GIN-debug] POST   /api/v1/tags              --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.AddTag (4 handlers)
+[GIN-debug] PUT    /api/v1/tags/:id          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.EditTag (4 handlers)
+[GIN-debug] DELETE /api/v1/tags/:id          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.DeleteTag (4 handlers)
+[GIN-debug] GET    /api/v1/articles          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetArticles (4 handlers)
+[GIN-debug] GET    /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetArticle (4 handlers)
+[GIN-debug] POST   /api/v1/articles          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.AddArticle (4 handlers)
+[GIN-debug] PUT    /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.EditArticle (4 handlers)
+[GIN-debug] DELETE /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.DeleteArticle (4 handlers)
+127.0.0.1 - [Fri, 05 Nov 2021 08:57:07 CST] "GET /auth?username=test&password=test123456 HTTP/1.0 200 10.8463ms " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "
+127.0.0.1 - [Fri, 05 Nov 2021 08:57:07 CST] "GET /favicon.ico HTTP/1.0 404 0s " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "

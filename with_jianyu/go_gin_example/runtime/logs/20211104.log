@@ -1,0 +1,18 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /auth                     --> AdvancedGo/with_jianyu/go_gin_example/routers/api.GetAuth (3 handlers)
+[GIN-debug] GET    /api/v1/tags              --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetTags (4 handlers)
+[GIN-debug] POST   /api/v1/tags              --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.AddTag (4 handlers)
+[GIN-debug] PUT    /api/v1/tags/:id          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.EditTag (4 handlers)
+[GIN-debug] DELETE /api/v1/tags/:id          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.DeleteTag (4 handlers)
+[GIN-debug] GET    /api/v1/articles          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetArticles (4 handlers)
+[GIN-debug] GET    /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.GetArticle (4 handlers)
+[GIN-debug] POST   /api/v1/articles          --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.AddArticle (4 handlers)
+[GIN-debug] PUT    /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.EditArticle (4 handlers)
+[GIN-debug] DELETE /api/v1/articles/:id      --> AdvancedGo/with_jianyu/go_gin_example/routers/api/v1.DeleteArticle (4 handlers)
+127.0.0.1 - [Thu, 04 Nov 2021 23:02:03 CST] "GET /auth?username=test&password=test123456 HTTP/1.1 200 8.324ms " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "
+127.0.0.1 - [Thu, 04 Nov 2021 23:03:27 CST] "POST /api/v1/tags?name=callback1&state=1&created_by=callback1 HTTP/1.1 401 528.8µs " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "
+127.0.0.1 - [Thu, 04 Nov 2021 23:03:50 CST] "POST /api/v1/tags?name=callback1&state=1&created_by=callback1token%3DeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJwYXNzd29yZCI6InRlc3QxMjM0NTYiLCJleHAiOjE2MzYwNDg5MjMsImlzcyI6Imdpbl9ibG9nIn0.rjeYRK22sfkvkCpGx9SdT2nTSw7SI8uM0UhvqBg5tm4 HTTP/1.1 401 0s " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "
+127.0.0.1 - [Thu, 04 Nov 2021 23:04:06 CST] "POST /api/v1/tags?name=callback1&state=1&created_by=callback1&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJwYXNzd29yZCI6InRlc3QxMjM0NTYiLCJleHAiOjE2MzYwNDg5MjMsImlzcyI6Imdpbl9ibG9nIn0.rjeYRK22sfkvkCpGx9SdT2nTSw7SI8uM0UhvqBg5tm4 HTTP/1.1 200 21.828ms " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 "  "
